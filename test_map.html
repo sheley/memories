@@ -112,6 +112,34 @@
         var customMapType = new google.maps.StyledMapType(styles, styledMapOptions);
 
         map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+
+        var textMarker = 'images/marker_text.png'
+        var myLatLng = new google.maps.LatLng(52.524, 13.4105300);
+        var testMarker01 = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: textMarker
+        });
+
+
+//waiting for image
+/*        var soundMarker = 'images/marker_sound.png'
+        var myLatLng = new google.maps.LatLng(52.523, 13.4105300);
+        var testMarker02 = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: soundMarker
+        });*/
+
+        var photoMarker = 'images/marker_photo.png'
+        var myLatLng = new google.maps.LatLng(52.525, 13.4105300);
+        var testMarker03 = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: photoMarker
+        });
+
+
       }
 
 google.maps.event.addDomListener(window, 'load', initialize);
