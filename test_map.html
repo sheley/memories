@@ -14,9 +14,14 @@
       var map;
       var berlin = new google.maps.LatLng(52.5243700, 13.4105300);
       var MY_MAPTYPE_ID = 'custom_style';
+      var directionsDisplay;
+      var directionsService = new google.maps.DirectionsService();
 
 
       function initialize() {
+        directionsDisplay = new google.maps.DirectionsRenderer();
+
+
          var styles = [
             {
                 featureType: 'water',
@@ -103,7 +108,7 @@
         };
 
         map = new google.maps.Map(document.getElementById('map_canvas'),
-            mapOptions);
+            mapOptions); directionsDisplay.setMap(map);
 
         var styledMapOptions = {
           name: 'Custom Style'
@@ -205,10 +210,28 @@
        infowindow3.open(map,testMarker03);
        });
 
+       
 
-        
 
-}
+      } //closing function initialize
+
+ function calcRoute() {
+            var selectedMode = document.getElementById('mode').value;
+            var request = {
+                origin: new google.maps.LatLng(52.525, 13.43),
+                destination: new google.maps.LatLng(52.523, 13.48),
+      // Note that Javascript allows us to access the constant
+      // using square brackets and a string value as its
+      // "property."
+                travelMode: google.maps.TravelMode[selectedMode]
+            };
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                }
+            });
+        }
+
 
       
 
@@ -217,6 +240,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
     </script>
   </head>
   <body>
+    <div id="panel">
+    <b>Mode of Travel: </b>
+        <select id="mode" onchange="calcRoute();">
+          <option value="DRIVING">Driving</option>
+          <option value="WALKING">Walking</option>
+          <option value="BICYCLING">Bicycling</option>
+          <option value="TRANSIT">Transit</option>
+        </select>
+    </div>
     <div id="map_canvas"></div>
   </body>
 </html>
