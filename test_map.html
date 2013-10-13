@@ -8,13 +8,19 @@
         margin: 0 auto;
       }
     </style>
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+  </head>
+  <body>
+    <div id="map_canvas" onload="calcRoute()"></div>
+
+
+ <script type="text/javascript">
 
       var map;
       var berlin = new google.maps.LatLng(52.5243700, 13.4105300);
       var MY_MAPTYPE_ID = 'custom_style';
-      var directionsDisplay;
+      var directionsDisplay = new google.maps.DirectionsRenderer();
       var directionsService = new google.maps.DirectionsService();
 
 
@@ -210,20 +216,15 @@
        infowindow3.open(map,testMarker03);
        });
 
-       
 
 
-      } //closing function initialize
-
- function calcRoute() {
-            var selectedMode = document.getElementById('mode').value;
+        function calcRoute() {;
             var request = {
                 origin: new google.maps.LatLng(52.525, 13.43),
                 destination: new google.maps.LatLng(52.523, 13.48),
-      // Note that Javascript allows us to access the constant
-      // using square brackets and a string value as its
-      // "property."
-                travelMode: google.maps.TravelMode[selectedMode]
+                waypoints: [{location: new google.maps.LatLng(52.524, 13.3905300)}],
+                optimizeWaypoints: false,
+                travelMode: google.maps.TravelMode.DRIVING
             };
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
@@ -232,23 +233,17 @@
             });
         }
 
+        calcRoute();
+
+      } //closing function initialize
+
+
 
       
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
-  </head>
-  <body>
-    <div id="panel">
-    <b>Mode of Travel: </b>
-        <select id="mode" onchange="calcRoute();">
-          <option value="DRIVING">Driving</option>
-          <option value="WALKING">Walking</option>
-          <option value="BICYCLING">Bicycling</option>
-          <option value="TRANSIT">Transit</option>
-        </select>
-    </div>
-    <div id="map_canvas"></div>
+
   </body>
 </html>
